@@ -17,6 +17,7 @@ public class CatalogApp {
 
 	@Autowired
 	public CatalogApp(ItemRepository itemRepository) {
+
 		this.itemRepository = itemRepository;
 	}
 
@@ -29,6 +30,7 @@ public class CatalogApp {
 	}
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(CatalogApp.class, args);
 	}
 

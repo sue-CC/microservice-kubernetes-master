@@ -29,11 +29,13 @@ public class CatalogController {
 
 	@RequestMapping("/list.html")
 	public ModelAndView ItemList() {
+
 		return new ModelAndView("itemlist", "items", itemRepository.findAll());
 	}
 
 	@RequestMapping(value = "/form.html", method = RequestMethod.GET)
 	public ModelAndView add() {
+
 		return new ModelAndView("item", "item", new Item());
 	}
 
@@ -52,6 +54,7 @@ public class CatalogController {
 
 	@RequestMapping(value = "/searchForm.html", produces = MediaType.TEXT_HTML_VALUE)
 	public ModelAndView searchForm() {
+
 		return new ModelAndView("searchForm");
 	}
 
