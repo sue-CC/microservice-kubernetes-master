@@ -9,10 +9,10 @@ import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapt
 import com.ewolff.microservice.order.clients.Customer;
 import com.ewolff.microservice.order.clients.Item;
 
-@Configuration
+@Configuration("orderSpringRestDataConfig")
 class SpringRestDataConfig extends RepositoryRestConfigurerAdapter {
 
-	@Bean
+	@Bean(name = "orderRepositoryRestConfigurer")
 	public RepositoryRestConfigurer repositoryRestConfigurer() {
 
 		return new RepositoryRestConfigurerAdapter() {
