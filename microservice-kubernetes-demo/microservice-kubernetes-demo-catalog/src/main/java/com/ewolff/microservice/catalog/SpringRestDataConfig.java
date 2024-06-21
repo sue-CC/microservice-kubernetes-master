@@ -6,10 +6,10 @@ import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapter;
 
-@Configuration
+@Configuration("catalogSpringRestDataConfig")
 class SpringRestDataConfig extends RepositoryRestConfigurerAdapter {
 
-	@Bean
+	@Bean(name = "catalogRepositoryRestConfigurer")
 	public RepositoryRestConfigurer repositoryRestConfigurer() {
 
 		return new RepositoryRestConfigurerAdapter() {

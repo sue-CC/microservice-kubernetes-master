@@ -19,7 +19,6 @@ public class CatalogServiceImpl extends CatalogServiceGrpc.CatalogServiceImplBas
 
     private static final Logger logger = LoggerFactory.getLogger(CatalogServiceImpl.class);
     private final ItemRepository itemRepository;
-
     @Autowired
     public CatalogServiceImpl(ItemRepository itemRepository) {
         this.itemRepository = itemRepository;
@@ -75,7 +74,6 @@ public class CatalogServiceImpl extends CatalogServiceGrpc.CatalogServiceImplBas
 
     // implement findItemById
     private Item findItemById(long itemId) {
-        // 查询数据库或其他数据源
         return itemRepository.findById(itemId).orElseThrow(() -> new RuntimeException("Item not found"));
     }
 

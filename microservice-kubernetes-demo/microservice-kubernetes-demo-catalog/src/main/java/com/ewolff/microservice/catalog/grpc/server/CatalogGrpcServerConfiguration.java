@@ -17,7 +17,7 @@ public class CatalogGrpcServerConfiguration {
     @Bean
     public Server grpcServer() throws IOException {
         // bind the port
-        Server server = ServerBuilder.forPort(8080)
+        Server server = ServerBuilder.forPort(9091)
                 .addService(catalogService) // publish service
                 .build(); // create server object
         server.start();

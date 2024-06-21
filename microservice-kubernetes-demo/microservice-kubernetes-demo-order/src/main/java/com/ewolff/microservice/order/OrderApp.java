@@ -8,8 +8,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @ComponentScan(basePackages = "com.ewolff.microservice")
-@EntityScan(basePackages = "com.ewolff.microservice.catalog")
-@EnableJpaRepositories(basePackages = "com.ewolff.microservice.catalog")
+@EntityScan(basePackages = {"com.ewolff.microservice.catalog", "com.ewolff.microservice.order.logic"})
+@EnableJpaRepositories(basePackages = {"com.ewolff.microservice.catalog", "com.ewolff.microservice.order.logic"})
 public class OrderApp {
 
 	public static void main(String[] args) {

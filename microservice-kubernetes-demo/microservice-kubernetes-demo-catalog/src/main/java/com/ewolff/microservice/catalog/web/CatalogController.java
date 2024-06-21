@@ -13,6 +13,7 @@ import com.ewolff.microservice.catalog.Item;
 import com.ewolff.microservice.catalog.ItemRepository;
 
 @Controller
+@RequestMapping("/catalog")
 public class CatalogController {
 
 	private final ItemRepository itemRepository;
