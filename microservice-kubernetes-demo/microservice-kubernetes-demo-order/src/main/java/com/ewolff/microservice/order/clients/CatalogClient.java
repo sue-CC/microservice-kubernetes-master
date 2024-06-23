@@ -12,26 +12,25 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.stream.Collectors;
 
-@Component
 public class CatalogClient {
 
 	private CatalogServiceGrpc.CatalogServiceBlockingStub catalogService;
 
-	@Value("${catalog.service.host:127.0.0.1}")
-	private String catalogServiceHost;
-
-	@Value("${catalog.service.port:9091}")
-	private int catalogServicePort;
+//	@Value("${catalog.service.host}")
+//	private String catalogServiceHost;
+//
+//	@Value("${catalog.service.port}")
+//	private int catalogServicePort;
 
 	@PostConstruct
 	public void init() {
 		// create a channel for communication
-		ManagedChannel channel = ManagedChannelBuilder.forAddress(catalogServiceHost, catalogServicePort)
+		ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 9090)
 				.usePlaintext()
 				.build();
 
 		// get stub
-		catalogService = CatalogServiceGrpc.newBlockingStub(channel);
+		catalogService = (channel);
 	}
 
 	// prepare the parameters
