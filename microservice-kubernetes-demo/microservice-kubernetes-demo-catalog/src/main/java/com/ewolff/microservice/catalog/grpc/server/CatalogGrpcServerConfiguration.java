@@ -1,34 +1,48 @@
 package com.ewolff.microservice.catalog.grpc.server;
 
+import com.ewolff.microservice.catalog.ItemRepository;
+import com.ewolff.microservice.catalog.grpc.server.CatalogServiceImpl;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
-import java.io.IOException;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
-@Configuration
+
+@Component
 public class CatalogGrpcServerConfiguration {
 
-    private static final Logger log = LoggerFactory.getLogger(CatalogGrpcServerConfiguration.class);
-    @Autowired
-    private CatalogServiceImpl catalogService;
+    private final Server server;
+    private final ItemRepository itemRepository;
 
-    @Bean
-    public Server grpcServer() throws IOException {
-        // bind the port
-        Server server = ServerBuilder.forPort(9090)
-                .addService(catalogService) // publish service
-                .build(); // create server object
-        server.start();
-        System.out.println("the listitems:" + server.getServices());
-        System.out.println("Catalog gRPC Server started, listening on " + server.getPort());
-        return server;
+
+
+    public CatalogGrpcServerConfiguration(@Value("${grpc.server.port:9091}")int port, ItemRepository itemRepository) {
+        this.itemRepository = itemRepository;
+        System.out.println("ItemRepository injected: " + (itemRepository != null));
+        ServerBuilder<?> builder = ServerBuilder.forPort(port);
+        builder.addService(new CatalogServiceImpl(itemRepository));
+        this.server = builder.build();
+
     }
 
+    @PostConstruct
+    public void start() {
+        try {
+            System.out.println("Attempting to start gRPC server...");
+            server.start();
+            System.out.println("Catalog gRPC Server started, listening on " + server.getPort());
+        } catch (Exception e) {
+            System.err.println("Failed to start gRPC server: " + e.getMessage());
+            throw new IllegalStateException("Not started", e);
+        }
+    }
 
+    @PreDestroy
+    public void stop() {
+        System.out.println("Catalog gRPC Server stopped");
+        server.shutdown();
+    }
 }
