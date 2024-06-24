@@ -17,8 +17,10 @@ public class CatalogGrpcClientImp implements CatalogClient {
     private final CatalogServiceGrpc.CatalogServiceBlockingStub catalogService;
 
     // construct client for accessing catalog server using the channel
-    public CatalogGrpcClientImp(@Value("${grpc.client.catalog:127.0.0.1:9091}") String url) {
-        ManagedChannel channel = ManagedChannelBuilder.forTarget(url)
+    public CatalogGrpcClientImp(@Value("${customer.service.host:localhost}") String host,
+                                @Value("${customer.service.port:9091}") int port) {
+//        String url = String.format("http://%s:%d", host, port);
+        ManagedChannel channel = ManagedChannelBuilder.forAddress(host, port)
                 .usePlaintext().build();
         this.catalogService = CatalogServiceGrpc.newBlockingStub(channel);
     }
