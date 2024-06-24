@@ -14,7 +14,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-import com.ewolff.microservice.order.clients.CatalogClient;
+import com.ewolff.microservice.order.clients.CatalogGrpcClientImp;
 
 @Entity
 @Table(name = "ORDERTABLE")
@@ -72,7 +72,7 @@ class Order {
 		return orderLine.size();
 	}
 
-	public double totalPrice(CatalogClient itemClient) {
+	public double totalPrice(CatalogGrpcClientImp itemClient) {
 		return orderLine.stream()
 				.map((ol) -> ol.getCount() * itemClient.price(ol.getItemId()))
 				.reduce(0.0, (d1, d2) -> d1 + d2);

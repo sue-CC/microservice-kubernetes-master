@@ -8,9 +8,9 @@ import com.google.protobuf.Empty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,6 +19,7 @@ public class CatalogServiceImpl extends CatalogServiceGrpc.CatalogServiceImplBas
 
     private static final Logger logger = LoggerFactory.getLogger(CatalogServiceImpl.class);
     private final ItemRepository itemRepository;
+
     @Autowired
     public CatalogServiceImpl(ItemRepository itemRepository) {
         this.itemRepository = itemRepository;
@@ -26,7 +27,6 @@ public class CatalogServiceImpl extends CatalogServiceGrpc.CatalogServiceImplBas
 
     @Override
     public void getItem(CatalogProto.ItemRequest request, StreamObserver<CatalogProto.ItemResponse> responseObserver) {
-        super.getItem(request, responseObserver);
         logger.info("Received getItem request for itemId: {}", request.getItemId());
         // get the itemId through request
         long itemId = request.getItemId();
@@ -47,13 +47,13 @@ public class CatalogServiceImpl extends CatalogServiceGrpc.CatalogServiceImplBas
         responseObserver.onCompleted();
     }
 
+    // request type: empty
+    // response type: List<item>
     @Override
     public void listItems(Empty request, StreamObserver<CatalogProto.ItemListResponse> responseObserver) {
-        super.listItems(request, responseObserver);
-        logger.info("Received listItems request");
-        // get all items
-        List<Item> items = findAllItems();
 
+        // get all items
+        Collection<Item> items = findAllItems();
         // new a builder for the response
         CatalogProto.ItemListResponse.Builder responseBuilder = CatalogProto.ItemListResponse.newBuilder();
 
@@ -69,6 +69,7 @@ public class CatalogServiceImpl extends CatalogServiceGrpc.CatalogServiceImplBas
 
         CatalogProto.ItemListResponse itemListResponse = responseBuilder.build();
         responseObserver.onNext(itemListResponse);
+        System.out.println("Received listItems request with the order information:\n" + itemListResponse.getItems(1));
         responseObserver.onCompleted();
     }
 
@@ -78,9 +79,10 @@ public class CatalogServiceImpl extends CatalogServiceGrpc.CatalogServiceImplBas
     }
 
     // implement findAllItems
-    public List<Item> findAllItems() {
-        return StreamSupport.stream(itemRepository.findAll().spliterator(), false)
-                .collect(Collectors.toList());
+    public Collection<Item> findAllItems() {
+        List<Item> items = new ArrayList<>();
+        itemRepository.findAll().forEach(items::add);
+        return items;
     }
-}
 
+}
