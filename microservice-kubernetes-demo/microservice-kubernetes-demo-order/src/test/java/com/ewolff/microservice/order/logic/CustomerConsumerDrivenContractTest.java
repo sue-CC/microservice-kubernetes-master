@@ -49,7 +49,7 @@ public class CustomerConsumerDrivenContractTest {
 		Collection<Customer> allCustomer = customerClient.findAll();
 		Long id = allCustomer.iterator().next().getCustomerId();
 		assertTrue(customerClient.isValidCustomerId(id));
-		assertFalse(customerClient.isValidCustomerId(-1));
+		assertFalse(customerClient.isValidCustomerId(100));
 	}
 
 }

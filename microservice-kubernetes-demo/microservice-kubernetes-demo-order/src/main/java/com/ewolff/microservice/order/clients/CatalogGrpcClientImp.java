@@ -28,7 +28,7 @@ public class CatalogGrpcClientImp implements CatalogClient {
     // get information from the channel
 
     @Override
-    public Item getOne(Long itemId) {
+    public Item getOne(long itemId) {
         CatalogProto.ItemRequest request = CatalogProto.ItemRequest.newBuilder().setItemId(itemId).build();
         CatalogProto.ItemResponse response = catalogService.getItem(request);
         logger.info("Id:" + response.getItemId()+ " " + "Name:" + response.getName() + " " + "Price" + response.getPrice());
@@ -46,19 +46,19 @@ public class CatalogGrpcClientImp implements CatalogClient {
     }
 
     @Override
-    public double price(Long itemId) {
+    public double price(long itemId) {
         CatalogProto.ItemRequest request = CatalogProto.ItemRequest.newBuilder().setItemId(itemId).build();
         return catalogService.getItem(request).getPrice();
     }
 
 
-    // prepare the parameters
-    CatalogProto.ItemRequest.Builder builder = CatalogProto.ItemRequest.newBuilder();
-
-    public void setBuilder(CatalogProto.ItemRequest.Builder builder) {
-        this.builder = builder;
-        builder.setItemId(builder.getItemId());
-    }
+//    // prepare the parameters
+//    CatalogProto.ItemRequest.Builder builder = CatalogProto.ItemRequest.newBuilder();
+//
+//    public void setBuilder(CatalogProto.ItemRequest.Builder builder) {
+//        this.builder = builder;
+//        builder.setItemId(builder.getItemId());
+//    }
 
 
 

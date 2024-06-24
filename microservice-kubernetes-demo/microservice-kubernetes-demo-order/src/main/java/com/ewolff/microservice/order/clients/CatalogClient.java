@@ -6,9 +6,9 @@ import org.springframework.context.annotation.Bean;
 import java.util.Collection;
 
 public interface CatalogClient {
-	Item getOne(Long itemId);
+	Item getOne(long itemId);
 
 	Collection<Item> findAll();
 
-	double price(Long itemId);
+	double price(long itemId);
 }

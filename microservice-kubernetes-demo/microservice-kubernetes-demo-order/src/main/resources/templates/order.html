@@ -12,7 +12,7 @@
     <div class="row">
         <div class="col-md-2">Customer</div>
         <div class="col-md-2"
-             th:text="${@customerClient.getOne(order.customerId).firstname}+' '+${@customerClient.getOne(order.customerId).name}"></div>
+             th:text="${@customerGrpcClientImpl.getOne(order.customerId).firstname}+' '+${@customerGrpcClientImpl.getOne(order.customerId).name}"></div>
     </div>
     <div class="row">
         <div class="col-md-2">Total price</div>

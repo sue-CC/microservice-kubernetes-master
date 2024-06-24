@@ -18,14 +18,12 @@ public class CatalogGrpcServerConfiguration {
     private final ItemRepository itemRepository;
 
 
-
     public CatalogGrpcServerConfiguration(@Value("${grpc.server.port:9091}")int port, ItemRepository itemRepository) {
         this.itemRepository = itemRepository;
         System.out.println("ItemRepository injected: " + (itemRepository != null));
         ServerBuilder<?> builder = ServerBuilder.forPort(port);
         builder.addService(new CatalogServiceImpl(itemRepository));
         this.server = builder.build();
-
     }
 
     @PostConstruct
