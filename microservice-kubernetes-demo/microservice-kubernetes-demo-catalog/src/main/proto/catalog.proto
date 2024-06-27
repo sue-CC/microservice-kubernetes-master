@@ -6,19 +6,18 @@ option java_outer_classname = "CatalogProto";
 
 import "google/protobuf/empty.proto";
 
+// service for order
 service CatalogService {
-  rpc GetItem (ItemRequest) returns (ItemResponse);
-  rpc ListItems (google.protobuf.Empty) returns (ItemListResponse);
+  rpc GetItem (ItemRequest) returns (Item);
+  rpc GetItemList(google.protobuf.Empty) returns (ItemListResponse);
+  rpc AddItem(AddItemRequest) returns (Item);
+  rpc UpdateItem(UpdateItemRequest) returns (Item);
+  rpc SearchItems(SearchRequest) returns (ItemListResponse);
+  rpc DeleteItem(ItemRequest) returns (SuccessResponse);
 }
 
 message ItemRequest {
   int64 itemId = 1;
-}
-
-message ItemResponse {
-  int64 itemId = 1;
-  string name = 2;
-  double price = 3;
 }
 
 message Item {
@@ -29,4 +28,23 @@ message Item {
 
 message ItemListResponse {
   repeated Item items = 1;
+}
+
+message AddItemRequest {
+  string name = 1;
+  double price = 2;
+}
+
+message UpdateItemRequest {
+  int64 itemId = 1;
+  string name = 2;
+  double price = 3;
+}
+
+message SearchRequest {
+  string query = 1;
+}
+
+message SuccessResponse{
+  string successMessage = 1;
 }

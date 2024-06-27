@@ -1,9 +1,6 @@
 package com.ewolff.microservice.catalog;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -13,7 +10,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class Item {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(nullable = false)
@@ -24,7 +21,6 @@ public class Item {
 
 	public Item() {
 		super();
-		id = 0l;
 	}
 
 	public Item(String name, double price) {

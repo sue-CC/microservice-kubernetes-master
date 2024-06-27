@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import com.google.protobuf.Empty;
 
 import java.util.Collection;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.logging.Logger;
 
@@ -19,7 +20,6 @@ public class CatalogGrpcClientImp implements CatalogClient {
     // construct client for accessing catalog server using the channel
     public CatalogGrpcClientImp(@Value("${customer.service.host:localhost}") String host,
                                 @Value("${customer.service.port:9091}") int port) {
-//        String url = String.format("http://%s:%d", host, port);
         ManagedChannel channel = ManagedChannelBuilder.forAddress(host, port)
                 .usePlaintext().build();
         this.catalogService = CatalogServiceGrpc.newBlockingStub(channel);
@@ -30,7 +30,7 @@ public class CatalogGrpcClientImp implements CatalogClient {
     @Override
     public Item getOne(long itemId) {
         CatalogProto.ItemRequest request = CatalogProto.ItemRequest.newBuilder().setItemId(itemId).build();
-        CatalogProto.ItemResponse response = catalogService.getItem(request);
+        CatalogProto.Item response = catalogService.getItem(request);
         logger.info("Id:" + response.getItemId()+ " " + "Name:" + response.getName() + " " + "Price" + response.getPrice());
         return new Item(request.getItemId(), response.getName(), response.getPrice());
     }
@@ -38,7 +38,7 @@ public class CatalogGrpcClientImp implements CatalogClient {
     @Override
     public Collection<Item> findAll() {
         Empty request = Empty.newBuilder().build();
-        CatalogProto.ItemListResponse response = catalogService.listItems(request);
+        CatalogProto.ItemListResponse response = catalogService.getItemList(request);
         System.out.println("Received items.");
         return response.getItemsList().stream()
                 .map(item -> new Item(item.getItemId(), item.getName(), item.getPrice()))
