@@ -43,7 +43,7 @@ public class catalogClientImpl implements catalogClient {
     @Override
     public Item getItem(Long id) {
         CatalogProto.ItemRequest request = CatalogProto.ItemRequest.newBuilder().setItemId(id).build();
-        if (!itemRepository.existsById(id)) {
+        if (itemRepository.existsById(id)) {
             CatalogProto.Item response = catalogService.getItem(request);
             return new Item(response.getName(), response.getPrice());
         }
@@ -54,7 +54,7 @@ public class catalogClientImpl implements catalogClient {
     public Collection<Item> getItems() {
         Empty request= Empty.newBuilder().build();
         CatalogProto.ItemListResponse response = catalogService.getItemList(request);
-        System.out.println("Received items.");
+//        System.out.println("Received items.");
         return response.getItemsList().stream()
                 .map(item -> new Item(item.getName(), item.getPrice()))
                 .collect(Collectors.toList());

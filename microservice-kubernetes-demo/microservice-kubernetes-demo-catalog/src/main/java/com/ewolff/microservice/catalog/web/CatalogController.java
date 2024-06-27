@@ -15,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.Collection;
 import java.util.List;
 
-@RestController // Use @RestController instead of @Controller
+@RestController
 @RequestMapping("/catalog") // Base URL for all requests in this controller
 public class CatalogController {
 

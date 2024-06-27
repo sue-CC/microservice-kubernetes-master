@@ -9,6 +9,9 @@ import "google/protobuf/empty.proto";
 service CustomerService {
   rpc getCustomer(CustomerRequest) returns (CustomerResponse);
   rpc getCustomerList(google.protobuf.Empty) returns (CustomerListResponse);
+  rpc CreateCustomer(CreateCustomerRequest) returns (CustomerResponse);
+  rpc UpdateCustomer(UpdateCustomerRequest) returns (CustomerResponse);
+  rpc DeleteCustomer(CustomerRequest) returns (SuccessResponse);
 }
 message CustomerRequest {
   int64 customerId = 1;
@@ -36,3 +39,23 @@ message CustomerListResponse {
   repeated Customer customers = 1;
 }
 
+message CreateCustomerRequest {
+  string name = 1;
+  string firstname = 2;
+  string email = 3;
+  string street = 4;
+  string city = 5;
+}
+
+message UpdateCustomerRequest {
+  int64 customerId = 1;
+  string name = 2;
+  string firstname = 3;
+  string email = 4;
+  string street = 5;
+  string city = 6;
+}
+
+message SuccessResponse{
+  string successMessage = 1;
+}

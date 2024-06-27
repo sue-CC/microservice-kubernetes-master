@@ -75,34 +75,26 @@ public class CatalogServiceImpl extends CatalogServiceGrpc.CatalogServiceImplBas
     @Override
     public void addItem(CatalogProto.AddItemRequest request, StreamObserver<CatalogProto.Item> responseObserver) {
         try {
-            // 创建新商品对象
             Item item = new Item();
             item.setName(request.getName());
             item.setPrice(request.getPrice());
 
-            // 保存商品到数据库
             itemRepository.save(item);
 
-            // 检查ID是否生成
             if (item.getId() == null) {
                 throw new RuntimeException("Failed to generate ID for item");
             }
 
-            // 构建响应
             CatalogProto.Item response = CatalogProto.Item.newBuilder()
                     .setItemId(item.getId())
                     .setName(item.getName())
                     .setPrice(item.getPrice())
                     .build();
-
-            // 发送响应
             responseObserver.onNext(response);
             responseObserver.onCompleted();
 
-            // 日志记录
             logger.info("Added Item: ID=" + item.getId() + ", Name=" + item.getName() + ", Price=" + item.getPrice());
         } catch (Exception e) {
-            // 处理异常并发送错误响应
             responseObserver.onError(e);
         }
     }

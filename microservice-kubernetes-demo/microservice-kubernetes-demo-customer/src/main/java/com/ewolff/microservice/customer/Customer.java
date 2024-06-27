@@ -35,7 +35,6 @@ public class Customer {
 
 	public Customer() {
 		super();
-		id = 0l;
 	}
 
 	public Customer(String firstname, String name, String email, String street,

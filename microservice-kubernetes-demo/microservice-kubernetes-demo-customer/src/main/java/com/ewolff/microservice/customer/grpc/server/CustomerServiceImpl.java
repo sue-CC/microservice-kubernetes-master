@@ -28,38 +28,31 @@ public class CustomerServiceImpl extends CustomerServiceGrpc.CustomerServiceImpl
 
     @Override
     public void getCustomer(CustomerProto.CustomerRequest request, StreamObserver<CustomerProto.CustomerResponse> responseObserver) {
-        logger.info("Received getCustomer gRPC request for itemId: {}", request.getCustomerId());
-        // get the customerId through request
+        logger.info("Received getCustomer gRPC request for customerId: {}", request.getCustomerId());
         long customerId = request.getCustomerId();
-
-        // get the item information through itemId
-        Customer customer = findCustomerById(customerId);
-
-        // construct a new builder to encapsulate for response
-        // inject related information into the builder
-        if (customer != null) {
+        try {
+            Customer customer = findCustomerById(customerId);
             CustomerProto.CustomerResponse response = CustomerProto.CustomerResponse.newBuilder()
-                .setCustomerId(customer.getId())
-                .setName(customer.getName())
-                .setFirstname(customer.getFirstname())
-                .setEmail(customer.getEmail())
-                .setStreet(customer.getStreet())
-                .setCity(customer.getCity())
-                .build();
+                    .setCustomerId(customer.getId())
+                    .setName(customer.getName())
+                    .setFirstname(customer.getFirstname())
+                    .setEmail(customer.getEmail())
+                    .setStreet(customer.getStreet())
+                    .setCity(customer.getCity())
+                    .build();
             responseObserver.onNext(response);
-        } else {
-            responseObserver.onError(new RuntimeException("Customer not found"));
+            responseObserver.onCompleted();
+        } catch (RuntimeException e) {
+            logger.error("Customer not found for customerId: {}", customerId, e);
+            responseObserver.onError(e);
         }
-        responseObserver.onCompleted();
     }
 
     @Override
     public void getCustomerList(Empty request, StreamObserver<CustomerProto.CustomerListResponse> responseObserver) {
-        // get all customers
+        logger.info("Received getCustomerList gRPC request");
         Collection<Customer> customers = findAllCustomers();
-        // new a builder for the response
         CustomerProto.CustomerListResponse.Builder responseBuilder = CustomerProto.CustomerListResponse.newBuilder();
-        // inject information into the builder
         for (Customer customer : customers) {
             CustomerProto.Customer customerResponse = CustomerProto.Customer.newBuilder()
                     .setCustomerId(customer.getId())
@@ -69,24 +62,89 @@ public class CustomerServiceImpl extends CustomerServiceGrpc.CustomerServiceImpl
                     .setStreet(customer.getStreet())
                     .setCity(customer.getCity())
                     .build();
-            responseBuilder.addCustomers(customerResponse); // add each customer to the customerListResponse
+            responseBuilder.addCustomers(customerResponse);
         }
-            CustomerProto.CustomerListResponse customerListResponse = responseBuilder.build();
-            responseObserver.onNext(customerListResponse);
-            System.out.println("Received customerList gRPC request with the customer information:\n" + customerListResponse.getCustomers(1));
-            responseObserver.onCompleted();
+        CustomerProto.CustomerListResponse customerListResponse = responseBuilder.build();
+        responseObserver.onNext(customerListResponse);
+        responseObserver.onCompleted();
     }
 
+    @Override
+    public void createCustomer(CustomerProto.CreateCustomerRequest request, StreamObserver<CustomerProto.CustomerResponse> responseObserver) {
+        logger.info("Received createCustomer gRPC request");
+        Customer customer = new Customer();
+        customer.setFirstname(request.getFirstname());
+        customer.setName(request.getName());
+        customer.setEmail(request.getEmail());
+        customer.setStreet(request.getStreet());
+        customer.setCity(request.getCity());
 
-        // implement findItemById
-        private Customer findCustomerById(long customerId){
-            return customerRepository.findById(customerId).orElseThrow(() -> new RuntimeException("Item not found"));
-        }
+        customer = customerRepository.save(customer);
+        CustomerProto.CustomerResponse response = CustomerProto.CustomerResponse.newBuilder()
+                .setCustomerId(customer.getId())
+                .setFirstname(customer.getFirstname())
+                .setName(customer.getName())
+                .setEmail(customer.getEmail())
+                .setStreet(customer.getStreet())
+                .setCity(customer.getCity())
+                .build();
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
 
-        // implement findAllItems
-        public Collection<Customer> findAllCustomers() {
-            List<Customer> customers = new ArrayList<>();
-            customerRepository.findAll().forEach(customers::add);
-            return customers;
+    @Override
+    public void updateCustomer(CustomerProto.UpdateCustomerRequest request, StreamObserver<CustomerProto.CustomerResponse> responseObserver) {
+        logger.info("Received updateCustomer gRPC request for customerId: {}", request.getCustomerId());
+        try {
+            Customer customer = findCustomerById(request.getCustomerId());
+            customer.setFirstname(request.getFirstname());
+            customer.setName(request.getName());
+            customer.setEmail(request.getEmail());
+            customer.setStreet(request.getStreet());
+            customer.setCity(request.getCity());
+
+            customer = customerRepository.save(customer);
+            CustomerProto.CustomerResponse response = CustomerProto.CustomerResponse.newBuilder()
+                    .setCustomerId(customer.getId())
+                    .setFirstname(customer.getFirstname())
+                    .setName(customer.getName())
+                    .setEmail(customer.getEmail())
+                    .setStreet(customer.getStreet())
+                    .setCity(customer.getCity())
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        } catch (RuntimeException e) {
+            logger.error("Customer not found for customerId: {}", request.getCustomerId(), e);
+            responseObserver.onError(e);
         }
+    }
+
+    @Override
+    public void deleteCustomer(CustomerProto.CustomerRequest request, StreamObserver<CustomerProto.SuccessResponse> responseObserver) {
+        logger.info("Received deleteCustomer gRPC request for customerId: {}", request.getCustomerId());
+        long customerId = request.getCustomerId();
+        try {
+            Customer customer = findCustomerById(customerId);
+            customerRepository.delete(customer);
+            CustomerProto.SuccessResponse response = CustomerProto.SuccessResponse.newBuilder()
+                    .setSuccessMessage("Customer successfully deleted!")
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        } catch (RuntimeException e) {
+            logger.error("Customer not found for customerId: {}", customerId, e);
+            responseObserver.onError(e);
+        }
+    }
+
+    private Customer findCustomerById(long customerId){
+        return customerRepository.findById(customerId).orElseThrow(() -> new RuntimeException("Customer not found"));
+    }
+
+    public Collection<Customer> findAllCustomers() {
+        List<Customer> customers = new ArrayList<>();
+        customerRepository.findAll().forEach(customers::add);
+        return customers;
+    }
 }
