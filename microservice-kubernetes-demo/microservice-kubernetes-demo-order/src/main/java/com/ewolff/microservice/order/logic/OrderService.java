@@ -1,10 +1,12 @@
 package com.ewolff.microservice.order.logic;
 
+import com.ewolff.microservice.order.clients.CatalogGrpcClientImp;
+import com.ewolff.microservice.order.clients.CustomerClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ewolff.microservice.order.clients.CatalogGrpcClientImp;
-import com.ewolff.microservice.order.clients.CustomerClient;
+import com.ewolff.microservice.order.clients.CatalogClient;
+import com.ewolff.microservice.customer.grpc.*;
 
 @Service
 class OrderService {

@@ -3,12 +3,7 @@ package com.ewolff.microservice.order.logic;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -18,7 +13,7 @@ import com.ewolff.microservice.order.clients.CatalogGrpcClientImp;
 
 @Entity
 @Table(name = "ORDERTABLE")
-class Order {
+public class Order {
 
 	@Id
 	@GeneratedValue
@@ -26,7 +21,7 @@ class Order {
 
 	private long customerId;
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<OrderLine> orderLine;
 
 	public Order() {
