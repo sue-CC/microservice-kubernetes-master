@@ -27,7 +27,7 @@ public class orderClientImpl implements orderClient {
 
     @Autowired// construct client for accessing catalog server using the channel
     public orderClientImpl(@Value("${order.service.host:localhost}") String host,
-                           @Value("${order.service.port:9093}") int port, OrderRepository orderRepository) {
+                           @Value("${order.service.port:9092}") int port, OrderRepository orderRepository) {
         this.channel = ManagedChannelBuilder.forAddress(host, port)
                 .usePlaintext().build();
         this.orderService = OrderServiceGrpc.newBlockingStub(channel);

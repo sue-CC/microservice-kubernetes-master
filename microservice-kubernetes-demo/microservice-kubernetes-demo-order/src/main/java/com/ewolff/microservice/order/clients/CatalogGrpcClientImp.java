@@ -18,8 +18,8 @@ public class CatalogGrpcClientImp implements CatalogClient {
     private final CatalogServiceGrpc.CatalogServiceBlockingStub catalogService;
 
     // construct client for accessing catalog server using the channel
-    public CatalogGrpcClientImp(@Value("${customer.service.host:localhost}") String host,
-                                @Value("${customer.service.port:9091}") int port) {
+    public CatalogGrpcClientImp(@Value("${catalog.service.host:localhost}") String host,
+                                @Value("${catalog.service.port:9091}") int port) {
         ManagedChannel channel = ManagedChannelBuilder.forAddress(host, port)
                 .usePlaintext().build();
         this.catalogService = CatalogServiceGrpc.newBlockingStub(channel);

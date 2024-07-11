@@ -1,0 +1,53 @@
+version: '3.8'
+services:
+  customer:
+    image: clytze/microservice-kubernetes-demo-customer
+    ports:
+      - "8080:8080"  # HTTP/REST
+      - "9090:9090" # gRPC
+    networks:
+      - microservice-network
+    environment:
+      - JAVA_OPTS=--illegal-access=permit
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8081/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  catalog:
+    image: clytze/microservice-kubernetes-demo-catalog
+    ports:
+      - "8081:8081"  # HTTP/REST
+      - "9091:9091" # gRPC
+    networks:
+      - microservice-network
+    environment:
+      - JAVA_OPTS=--illegal-access=permit
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  order:
+    image: clytze/microservice-kubernetes-demo-order
+    ports:
+      - "8082:8082"  # HTTP/REST
+      - "9092:9092" # gRPC
+    networks:
+      - microservice-network
+    depends_on:
+      - customer
+      - catalog
+    environment:
+      - JAVA_OPTS=--illegal-access=permit
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8082/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  microservice-network:
+    driver: bridge

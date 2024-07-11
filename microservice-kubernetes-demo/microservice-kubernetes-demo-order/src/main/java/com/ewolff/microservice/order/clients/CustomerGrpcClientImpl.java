@@ -19,7 +19,7 @@ public class CustomerGrpcClientImpl implements CustomerClient {
 
     // construct client for accessing catalog server using the channel
     public CustomerGrpcClientImpl(@Value("${customer.service.host:localhost}") String host,
-                                @Value("${customer.service.port:9092}") int port) {
+                                @Value("${customer.service.port:9090}") int port) {
         ManagedChannel channel = ManagedChannelBuilder.forAddress(host, port)
                 .usePlaintext().build();
         this.customerService = CustomerServiceGrpc.newBlockingStub(channel);

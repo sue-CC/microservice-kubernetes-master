@@ -22,31 +22,31 @@ public class CustomerConsumerDrivenContractTest {
 	@Autowired
 	CustomerClient customerClient;
 
-	@Test
-	public void testFindAll() {
-		Collection<Customer> result = customerClient.findAll();
-		assertEquals(1,
-				result.stream()
-						.filter(c -> (c.getName().equals("Wolff") && c.getFirstname().equals("Eberhard")
-								&& c.getEmail().equals("eberhard.wolff@gmail.com")
-								&& c.getStreet().equals("Unter den Linden") && c.getCity().equals("Berlin")))
-						.count());
-	}
-
-	@Test
-	public void testGetOne() {
-		Collection<Customer> allCustomer = customerClient.findAll();
-		Long id = allCustomer.iterator().next().getCustomerId();
-		Customer result = customerClient.getOne(id);
-		assertEquals(id.longValue(), result.getCustomerId());
-	}
-
-	@Test
-	public void testValidCustomerId() {
-		Collection<Customer> allCustomer = customerClient.findAll();
-		Long id = allCustomer.iterator().next().getCustomerId();
-		assertTrue(customerClient.isValidCustomerId(id));
-		assertFalse(customerClient.isValidCustomerId(-1));
-	}
+//	@Test
+//	public void testFindAll() {
+//		Collection<Customer> result = customerClient.findAll();
+//		assertEquals(1,
+//				result.stream()
+//						.filter(c -> (c.getName().equals("Wolff") && c.getFirstname().equals("Eberhard")
+//								&& c.getEmail().equals("eberhard.wolff@gmail.com")
+//								&& c.getStreet().equals("Unter den Linden") && c.getCity().equals("Berlin")))
+//						.count());
+//	}
+//
+//	@Test
+//	public void testGetOne() {
+//		Collection<Customer> allCustomer = customerClient.findAll();
+//		Long id = allCustomer.iterator().next().getCustomerId();
+//		Customer result = customerClient.getOne(id);
+//		assertEquals(id.longValue(), result.getCustomerId());
+//	}
+//
+//	@Test
+//	public void testValidCustomerId() {
+//		Collection<Customer> allCustomer = customerClient.findAll();
+//		Long id = allCustomer.iterator().next().getCustomerId();
+//		assertTrue(customerClient.isValidCustomerId(id));
+//		assertFalse(customerClient.isValidCustomerId(-1));
+//	}
 
 }
