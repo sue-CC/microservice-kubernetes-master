@@ -3,7 +3,6 @@ services:
   customer-service-grpc:
     image: clytze/microservice-kubernetes-demo-customer-grpc
     ports:
-#      - "8080:8080"  # HTTP/REST
       - "9096:9096" # gRPC
     networks:
       - microservice-network
@@ -14,7 +13,6 @@ services:
   catalog-service-grpc:
     image: clytze/microservice-kubernetes-demo-catalog-grpc
     ports:
-#      - "8081:8081"  # HTTP/REST
       - "9095:9095" # gRPC
     networks:
       - microservice-network
@@ -24,7 +22,6 @@ services:
   order-service-grpc:
     image: clytze/microservice-kubernetes-demo-order-grpc
     ports:
-#      - "8082:8082"  # HTTP/REST
       - "9097:9097" # gRPC
     networks:
       - microservice-network
