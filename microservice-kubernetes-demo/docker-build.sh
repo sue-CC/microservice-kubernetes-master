@@ -6,14 +6,14 @@ docker build --tag=microservice-kubernetes-demo-apache apache
 docker tag microservice-kubernetes-demo-apache $DOCKER_ACCOUNT/microservice-kubernetes-demo-apache:latest
 docker push $DOCKER_ACCOUNT/microservice-kubernetes-demo-apache
 
-docker build --tag=microservice-kubernetes-demo-catalog-grpc microservice-kubernetes-demo-catalog
-docker tag microservice-kubernetes-demo-catalog-grpc $DOCKER_ACCOUNT/microservice-kubernetes-demo-catalog-grpc:latest
-docker push $DOCKER_ACCOUNT/microservice-kubernetes-demo-catalog-grpc
+docker build --tag=microservice-kubernetes-demo-catalog-rest microservice-kubernetes-demo-catalog
+docker tag microservice-kubernetes-demo-catalog-rest $DOCKER_ACCOUNT/microservice-kubernetes-demo-catalog-rest:latest
+docker push $DOCKER_ACCOUNT/microservice-kubernetes-demo-catalog-rest
 
-docker build --tag=microservice-kubernetes-demo-customer-grpc microservice-kubernetes-demo-customer
-docker tag microservice-kubernetes-demo-customer-grpc $DOCKER_ACCOUNT/microservice-kubernetes-demo-customer-grpc:latest
-docker push $DOCKER_ACCOUNT/microservice-kubernetes-demo-customer-grpc
+docker build --tag=microservice-kubernetes-demo-customer-rest microservice-kubernetes-demo-customer
+docker tag microservice-kubernetes-demo-customer-rest $DOCKER_ACCOUNT/microservice-kubernetes-demo-customer-rest:latest
+docker push $DOCKER_ACCOUNT/microservice-kubernetes-demo-customer-rest
 
-docker build --tag=microservice-kubernetes-demo-order-grpc microservice-kubernetes-demo-order
-docker tag microservice-kubernetes-demo-order-grpc $DOCKER_ACCOUNT/microservice-kubernetes-demo-order-grpc:latest
-docker push $DOCKER_ACCOUNT/microservice-kubernetes-demo-order-grpc
+docker build --tag=microservice-kubernetes-demo-order-rest microservice-kubernetes-demo-order
+docker tag microservice-kubernetes-demo-order-rest $DOCKER_ACCOUNT/microservice-kubernetes-demo-order-rest:latest
+docker push $DOCKER_ACCOUNT/microservice-kubernetes-demo-order-rest

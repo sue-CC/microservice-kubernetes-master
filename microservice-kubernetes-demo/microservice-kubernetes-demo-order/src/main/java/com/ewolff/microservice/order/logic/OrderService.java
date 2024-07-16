@@ -1,23 +1,21 @@
 package com.ewolff.microservice.order.logic;
 
-import com.ewolff.microservice.order.clients.CatalogGrpcClientImp;
-import com.ewolff.microservice.order.clients.CustomerClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ewolff.microservice.order.clients.CatalogClient;
-import com.ewolff.microservice.customer.grpc.*;
+import com.ewolff.microservice.order.clients.CustomerClient;
 
 @Service
 class OrderService {
 
 	private OrderRepository orderRepository;
 	private CustomerClient customerClient;
-	private CatalogGrpcClientImp itemClient;
+	private CatalogClient itemClient;
 
 	@Autowired
 	private OrderService(OrderRepository orderRepository,
-						 CustomerClient customerClient, CatalogGrpcClientImp itemClient) {
+						 CustomerClient customerClient, CatalogClient itemClient) {
 		super();
 		this.orderRepository = orderRepository;
 		this.customerClient = customerClient;
