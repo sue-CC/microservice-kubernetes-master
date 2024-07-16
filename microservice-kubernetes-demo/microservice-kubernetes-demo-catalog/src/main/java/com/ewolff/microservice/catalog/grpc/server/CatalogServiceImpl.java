@@ -92,14 +92,10 @@ public class CatalogServiceImpl extends CatalogServiceGrpc.CatalogServiceImplBas
                     .build();
             responseObserver.onNext(response);
             responseObserver.onCompleted();
-
-            logger.info("Added Item: ID=" + item.getId() + ", Name=" + item.getName() + ", Price=" + item.getPrice());
         } catch (Exception e) {
             responseObserver.onError(e);
         }
     }
-
-
 
     @Override
     public void updateItem(CatalogProto.UpdateItemRequest request, StreamObserver<CatalogProto.Item> responseObserver) {
@@ -123,25 +119,6 @@ public class CatalogServiceImpl extends CatalogServiceGrpc.CatalogServiceImplBas
             responseObserver.onCompleted();
         }
     }
-
-    @Override
-    public void searchItems(CatalogProto.SearchRequest request, StreamObserver<CatalogProto.ItemListResponse> responseObserver) {
-        String query = request.getQuery();
-        Collection<Item> items = itemRepository.findByNameContaining(query);
-        System.out.println("Found " + items.size() + " items");
-        CatalogProto.ItemListResponse.Builder responseBuilder = CatalogProto.ItemListResponse.newBuilder();
-        for (Item item : items) {
-            CatalogProto.Item itemResponse = CatalogProto.Item.newBuilder()
-                    .setItemId(item.getId())
-                    .setName(item.getName())
-                    .setPrice(item.getPrice())
-                    .build();
-            responseBuilder.addItems(itemResponse);
-        }
-            responseObserver.onNext(responseBuilder.build());
-            responseObserver.onCompleted();
-        }
-
     @Override
     public void deleteItem(CatalogProto.ItemRequest request, StreamObserver<CatalogProto.SuccessResponse> responseObserver) {
         Long id = request.getItemId();

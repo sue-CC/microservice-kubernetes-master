@@ -1,7 +1,6 @@
 package com.ewolff.microservice.catalog.grpc.server;
 
 import com.ewolff.microservice.catalog.ItemRepository;
-import com.ewolff.microservice.catalog.grpc.server.CatalogServiceImpl;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +17,7 @@ public class CatalogGrpcServerConfiguration {
     private final ItemRepository itemRepository;
 
 
-    public CatalogGrpcServerConfiguration(@Value("${catalog.server.port:9091}")int port, ItemRepository itemRepository) {
+    public CatalogGrpcServerConfiguration(@Value("${catalog.server.port:9095}")int port, ItemRepository itemRepository) {
         this.itemRepository = itemRepository;
         System.out.println("ItemRepository injected: " + (itemRepository != null));
         ServerBuilder<?> builder = ServerBuilder.forPort(port);

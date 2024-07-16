@@ -25,8 +25,8 @@ public class catalogClientImpl implements catalogClient {
     private final ManagedChannel channel;
 
     @Autowired// construct client for accessing catalog server using the channel
-    public catalogClientImpl(@Value("${catalog.service.host:localhost}") String host,
-                                @Value("${catalog.service.port:9091}") int port, ItemRepository itemRepository) {
+    public catalogClientImpl(@Value("${catalog.server.host:catalog-service-grpc}") String host,
+                                @Value("${catalog.server.port:9095}") int port, ItemRepository itemRepository) {
         this.channel = ManagedChannelBuilder.forAddress(host, port)
                 .usePlaintext().build();
         this.catalogService = CatalogServiceGrpc.newBlockingStub(channel);
@@ -54,7 +54,6 @@ public class catalogClientImpl implements catalogClient {
     public Collection<Item> getItems() {
         Empty request= Empty.newBuilder().build();
         CatalogProto.ItemListResponse response = catalogService.getItemList(request);
-//        System.out.println("Received items.");
         return response.getItemsList().stream()
                 .map(item -> new Item(item.getName(), item.getPrice()))
                 .collect(Collectors.toList());
@@ -91,14 +90,5 @@ public class catalogClientImpl implements catalogClient {
         CatalogProto.ItemRequest request = CatalogProto.ItemRequest.newBuilder().setItemId(id).build();
         CatalogProto.SuccessResponse response = catalogService.deleteItem(request);
         return response.getSuccessMessage();
-    }
-
-    @Override
-    public Collection<Item> searchItems(String query) {
-       CatalogProto.SearchRequest request = CatalogProto.SearchRequest.newBuilder().setQuery(query).build();
-       CatalogProto.ItemListResponse response = catalogService.searchItems(request);
-        return response.getItemsList().stream()
-                .map(item -> new Item(item.getName(), item.getPrice()))
-                .collect(Collectors.toList());
     }
 }

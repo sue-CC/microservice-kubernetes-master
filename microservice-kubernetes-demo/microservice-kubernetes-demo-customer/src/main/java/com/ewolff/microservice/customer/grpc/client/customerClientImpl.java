@@ -25,8 +25,8 @@ public class customerClientImpl implements customerClient {
     private final ManagedChannel channel;
 
     @Autowired// construct client for accessing catalog server using the channel
-    public customerClientImpl(@Value("${customer.service.host:localhost}") String host,
-                             @Value("${customer.service.port:9090}") int port, CustomerRepository customerRepository) {
+    public customerClientImpl(@Value("${customer.server.host:customer-service-grpc}") String host,
+                             @Value("${customer.server.port:9096}") int port, CustomerRepository customerRepository) {
         this.channel = ManagedChannelBuilder.forAddress(host, port)
                 .usePlaintext().build();
         this.customerService = CustomerServiceGrpc.newBlockingStub(channel);

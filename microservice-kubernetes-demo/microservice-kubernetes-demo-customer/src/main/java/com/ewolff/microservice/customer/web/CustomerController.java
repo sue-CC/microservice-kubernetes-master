@@ -22,6 +22,7 @@ public class CustomerController {
 		this.customerRepository = customerRepository;
 	}
 
+	// get customer by id
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Customer> getCustomer(@PathVariable("id") long id) {
 		return customerRepository.findById(id)
@@ -29,22 +30,25 @@ public class CustomerController {
 				.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 
+	// get customer list
 	@GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Iterable<Customer>> getCustomerList() {
 		return new ResponseEntity<>(customerRepository.findAll(), HttpStatus.OK);
 	}
 
-	@GetMapping(value = "/form", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Customer> getAddForm() {
-		return new ResponseEntity<>(new Customer(), HttpStatus.OK);
-	}
+//	@GetMapping(value = "/form", produces = MediaType.APPLICATION_JSON_VALUE)
+//	public ResponseEntity<Customer> getAddForm() {
+//		return new ResponseEntity<>(new Customer(), HttpStatus.OK);
+//	}
 
+	// crate customer
 	@PostMapping(value = "/form", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Customer> postCustomer(@RequestBody Customer customer, HttpServletRequest httpRequest) {
 		Customer savedCustomer = customerRepository.save(customer);
 		return new ResponseEntity<>(savedCustomer, HttpStatus.CREATED);
 	}
 
+	// update customer
 	@PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Customer> putCustomer(@PathVariable("id") long id, @RequestBody Customer customer, HttpServletRequest httpRequest) {
 		if (!customerRepository.existsById(id)) {
@@ -55,6 +59,7 @@ public class CustomerController {
 		return new ResponseEntity<>(updatedCustomer, HttpStatus.OK);
 	}
 
+	// delete customer
 	@DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> deleteCustomer(@PathVariable("id") long id) {
 		if (!customerRepository.existsById(id)) {

@@ -10,5 +10,4 @@ public interface catalogClient {
     Item addItem(Item item);
     Item updateItem(Long id, String name, double price);
     String deleteItem(Long id);
-    Collection<Item> searchItems(String query);
 }

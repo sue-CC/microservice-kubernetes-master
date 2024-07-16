@@ -14,7 +14,7 @@ public class OrderGrpcServerConfiguration {
     private final Server server;
     private final OrderRepository orderRepository;
 
-    public OrderGrpcServerConfiguration(@Value("${order.server.port:9092}")int port, OrderRepository orderRepository) {
+    public OrderGrpcServerConfiguration(@Value("${order.server.port:9097}")int port, OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
         System.out.println("OrderRepository injected: " + (orderRepository != null));
         ServerBuilder<?> builder = ServerBuilder.forPort(port);

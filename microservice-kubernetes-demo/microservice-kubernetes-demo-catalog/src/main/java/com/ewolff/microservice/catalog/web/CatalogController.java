@@ -1,18 +1,14 @@
 package com.ewolff.microservice.catalog.web;
 
-import org.aspectj.weaver.ast.Literal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import com.ewolff.microservice.catalog.Item;
 import com.ewolff.microservice.catalog.ItemRepository;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -26,30 +22,26 @@ public class CatalogController {
 		this.itemRepository = itemRepository;
 	}
 
+	// get item
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Item> getItem(@PathVariable("id") long id) {
 		return itemRepository.findById(id)
 				.map(item -> new ResponseEntity<>(item, HttpStatus.OK))
 				.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
-
+	// get item list
 	@GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Iterable<Item>> getItemList() {
 		Iterable<Item> items = itemRepository.findAll();
 		return new ResponseEntity<>(items, HttpStatus.OK);
 	}
-
-	@GetMapping(value = "/form", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Item> getAddForm() {
-		return new ResponseEntity<>(new Item(), HttpStatus.OK);
-	}
-
+	// create item
 	@PostMapping(value = "/form", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Item> postItem(@RequestBody Item item) {
 		Item savedItem = itemRepository.save(item);
 		return new ResponseEntity<>(savedItem, HttpStatus.CREATED);
 	}
-
+	// update item
 	@PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Item> putItem(@PathVariable("id") long id, @RequestBody Item item) {
 		if (!itemRepository.existsById(id)) {
@@ -59,18 +51,7 @@ public class CatalogController {
 		Item updatedItem = itemRepository.save(item);
 		return new ResponseEntity<>(updatedItem, HttpStatus.OK);
 	}
-
-	@GetMapping(value = "/searchForm", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> getSearchForm() {
-		return new ResponseEntity<>("{\"message\": \"Search form\"}", HttpStatus.OK);
-	}
-
-	@GetMapping(value = "/searchByName", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Item>> searchByName(@RequestParam("itemName") String query) {
-		List<Item> items = itemRepository.findByNameContaining(query);
-		return new ResponseEntity<>(items, HttpStatus.OK);
-	}
-
+	// delete item
 	@DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Void> deleteItem(@PathVariable("id") long id) {
 		if (!itemRepository.existsById(id)) {

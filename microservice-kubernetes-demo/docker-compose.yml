@@ -1,52 +1,38 @@
 version: '3.8'
 services:
-  customer:
-    image: clytze/microservice-kubernetes-demo-customer
+  customer-service-grpc:
+    image: clytze/microservice-kubernetes-demo-customer-grpc
     ports:
-      - "8080:8080"  # HTTP/REST
-      - "9090:9090" # gRPC
+#      - "8080:8080"  # HTTP/REST
+      - "9096:9096" # gRPC
     networks:
       - microservice-network
     environment:
       - JAVA_OPTS=--illegal-access=permit
-    healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8081/health || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
 
-  catalog:
-    image: clytze/microservice-kubernetes-demo-catalog
+
+  catalog-service-grpc:
+    image: clytze/microservice-kubernetes-demo-catalog-grpc
     ports:
-      - "8081:8081"  # HTTP/REST
-      - "9091:9091" # gRPC
+#      - "8081:8081"  # HTTP/REST
+      - "9095:9095" # gRPC
     networks:
       - microservice-network
     environment:
       - JAVA_OPTS=--illegal-access=permit
-    healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8080/health || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
 
-  order:
-    image: clytze/microservice-kubernetes-demo-order
+  order-service-grpc:
+    image: clytze/microservice-kubernetes-demo-order-grpc
     ports:
-      - "8082:8082"  # HTTP/REST
-      - "9092:9092" # gRPC
+#      - "8082:8082"  # HTTP/REST
+      - "9097:9097" # gRPC
     networks:
       - microservice-network
     depends_on:
-      - customer
-      - catalog
+      - customer-service-grpc
+      - catalog-service-grpc
     environment:
       - JAVA_OPTS=--illegal-access=permit
-    healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8082/health || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
 
 networks:
   microservice-network:

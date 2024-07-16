@@ -12,7 +12,6 @@ service CatalogService {
   rpc GetItemList(google.protobuf.Empty) returns (ItemListResponse);
   rpc AddItem(AddItemRequest) returns (Item);
   rpc UpdateItem(UpdateItemRequest) returns (Item);
-  rpc SearchItems(SearchRequest) returns (ItemListResponse);
   rpc DeleteItem(ItemRequest) returns (SuccessResponse);
 }
 

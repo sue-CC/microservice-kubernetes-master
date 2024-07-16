@@ -14,7 +14,7 @@ public class CustomerGrpcServerConfiguration {
         private final Server server;
         private final CustomerRepository customerRepository;
 
-        public CustomerGrpcServerConfiguration(@Value("${customer.server.port:9090}")int port, CustomerRepository customerRepository) {
+        public CustomerGrpcServerConfiguration(@Value("${customer.server.port:9096}")int port, CustomerRepository customerRepository) {
             this.customerRepository = customerRepository;
             System.out.println("CustomerRepository injected: " + (customerRepository != null));
             ServerBuilder<?> builder = ServerBuilder.forPort(port);
