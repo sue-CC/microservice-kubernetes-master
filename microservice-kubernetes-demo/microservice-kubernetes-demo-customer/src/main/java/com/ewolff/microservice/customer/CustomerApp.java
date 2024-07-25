@@ -38,7 +38,7 @@ public class CustomerApp {
 		Random random = new Random();
 
 		// Generate 50 random entries
-		for (int i = 0; i < 50; i++) {
+		for (int i = 0; i < 1000; i++) {
 			String firstName = firstNames[random.nextInt(firstNames.length)];
 			String lastName = lastNames[random.nextInt(lastNames.length)];
 			String email = generateEmail(firstName, lastName);

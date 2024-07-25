@@ -34,14 +34,14 @@ public class OrderApp {
 
 		Random random = new Random();
 
-		for (int i = 0; i < 50; i++) {
-			long customerId = random.nextInt(50) + 1;
+		for (int i = 0; i < 1000; i++) {
+			long customerId = random.nextInt(1000) + 1;
 			Order order = new Order(customerId);
 			int numberOfLines = random.nextInt(1) + 1;
 
 			for (int j = 0; j < numberOfLines; j++) {
 				int count = random.nextInt(10) + 1;
-				long itemId = random.nextInt(50) + 1;
+				long itemId = random.nextInt(1000) + 1;
 				String note = "None";
 				order.addLine(count, itemId, note);
 				orderRepository.save(order);

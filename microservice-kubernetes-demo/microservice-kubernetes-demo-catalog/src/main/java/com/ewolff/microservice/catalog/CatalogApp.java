@@ -36,7 +36,7 @@ public class CatalogApp {
 		Random random = new Random();
 
 		// Generate 50 random entries
-		for (int i = 0; i < 50; i++) {
+		for (int i = 0; i < 1000; i++) {
 			String itemName = itemNames[random.nextInt(itemNames.length)];
 			double price = prices[random.nextInt(prices.length)];
 			itemRepository.save(new Item(itemName, price));

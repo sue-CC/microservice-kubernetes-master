@@ -1,20 +1,20 @@
 version: '3.7'
 
 services:
-  apache:
-    image: clytze/microservice-kubernetes-demo-apache:latest
-    container_name: apache
-    ports:
-      - "80:80"
-    volumes:
-      - ./apache/index.html:/var/www/html/index.html
-      - ./apache/000-default.conf:/etc/apache2/sites-enabled/000-default.conf
-    networks:
-      - microservice-network
-    depends_on:
-      - order
-      - catalog
-      - customer
+#  apache:
+#    image: clytze/microservice-kubernetes-demo-apache:latest
+#    container_name: apache
+#    ports:
+#      - "80:80"
+#    volumes:
+#      - ./apache/index.html:/var/www/html/index.html
+#      - ./apache/000-default.conf:/etc/apache2/sites-enabled/000-default.conf
+#    networks:
+#      - microservice-network
+#    depends_on:
+#      - order
+#      - catalog
+#      - customer
 
   customer:
     image: clytze/microservice-kubernetes-demo-customer-rest:latest
