@@ -15,6 +15,9 @@ public class OrderLine {
 
 	private long itemId;
 
+	@Lob
+	@Column(nullable = false, length = 150000)
+	@Size(max = 150000)
 	private String note;
 
 	@Id
@@ -29,9 +32,7 @@ public class OrderLine {
 		this.itemId = item;
 	}
 
-	@Lob
-	@Column(nullable = false, length = 150000)
-	@Size(max = 150000)
+
 	public void setNote(String note) {this.note = note;}
 
 	public OrderLine() {
