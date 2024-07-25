@@ -64,8 +64,8 @@ public class Order {
 		this.orderLine = orderLine;
 	}
 
-	public void addLine(int count, long itemId) {
-		this.orderLine.add(new OrderLine(count, itemId));
+	public void addLine(int count, long itemId, String note) {
+		this.orderLine.add(new OrderLine(count, itemId, note));
 	}
 
 	public int getNumberOfLines() {

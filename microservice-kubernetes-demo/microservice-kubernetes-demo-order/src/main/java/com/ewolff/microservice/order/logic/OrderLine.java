@@ -17,6 +17,8 @@ public class OrderLine {
 
 	private long itemId;
 
+	private String note;
+
 	@Id
 	@GeneratedValue
 	private long id;
@@ -29,12 +31,16 @@ public class OrderLine {
 		this.itemId = item;
 	}
 
+	public void setNote(String note) {this.note = note;}
+
 	public OrderLine() {
 	}
 
-	public OrderLine(int count, long item) {
+	public OrderLine(int count, long item, String note) {
 		this.count = count;
 		this.itemId = item;
+		this.note = note;
+
 	}
 
 	public int getCount() {
@@ -44,6 +50,8 @@ public class OrderLine {
 	public long getItemId() {
 		return itemId;
 	}
+
+	public String getNote() { return note;}
 
 	@Override
 	public String toString() {

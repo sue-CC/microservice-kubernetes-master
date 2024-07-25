@@ -23,11 +23,11 @@ public class OrderApp {
 	@PostConstruct
 	public void generateTestData() {
 		Order order1 = new Order(1);
-		order1.addLine(2, 1); // Adding two items with itemId 101
-		order1.addLine(1, 2); // Adding one item with itemId 102
+		order1.addLine(2, 1, "None"); // Adding two items with itemId 101
+		order1.addLine(1, 2, "None"); // Adding one item with itemId 102
 
 		Order order2 = new Order(2);
-		order2.addLine(3, 3); // Adding three items with itemId 103
+		order2.addLine(3, 3, "None"); // Adding three items with itemId 103
 
 		orderRepository.save(order1);
 		orderRepository.save(order2);
@@ -42,7 +42,8 @@ public class OrderApp {
 			for (int j = 0; j < numberOfLines; j++) {
 				int count = random.nextInt(10) + 1;
 				long itemId = random.nextInt(50) + 1;
-				order.addLine(count, itemId);
+				String note = "None";
+				order.addLine(count, itemId, note);
 				orderRepository.save(order);
 			}
 

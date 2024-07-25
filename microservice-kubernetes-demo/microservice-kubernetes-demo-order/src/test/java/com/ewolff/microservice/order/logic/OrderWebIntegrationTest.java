@@ -65,7 +65,7 @@ public class OrderWebIntegrationTest {
 			String orderList = resultEntity.getBody();
 			assertFalse(orderList.contains("Eberhard"));
 			Order order = new Order(customer.getCustomerId());
-			order.addLine(42, item.getItemId());
+			order.addLine(42, item.getItemId(), "None");
 			orderRepository.save(order);
 			orderList = restTemplate.getForObject(orderURL(), String.class);
 			assertTrue(orderList.contains("Eberhard"));
