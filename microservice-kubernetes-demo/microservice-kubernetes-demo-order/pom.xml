@@ -99,19 +99,19 @@
 			<artifactId>jaxb-api</artifactId>
 		</dependency>
 
-        <dependency>
-            <groupId>com.ewolff</groupId>
-            <artifactId>microservice-kubernetes-demo-catalog</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.ewolff</groupId>-->
+<!--            <artifactId>microservice-kubernetes-demo-catalog</artifactId>-->
+<!--            <version>0.0.1-SNAPSHOT</version>-->
+<!--            <scope>compile</scope>-->
+<!--        </dependency>-->
 
-		<dependency>
-			<groupId>com.ewolff</groupId>
-			<artifactId>microservice-kubernetes-demo-customer</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<scope>compile</scope>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>com.ewolff</groupId>-->
+<!--			<artifactId>microservice-kubernetes-demo-customer</artifactId>-->
+<!--			<version>0.0.1-SNAPSHOT</version>-->
+<!--			<scope>compile</scope>-->
+<!--		</dependency>-->
 
 		<dependency>
 			<groupId>javax.validation</groupId>

@@ -9,7 +9,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-import com.ewolff.microservice.order.clients.CatalogGrpcClientImp;
+import com.ewolff.microservice.order.clients.CatalogClient;
 
 @Entity
 @Table(name = "ORDERTABLE")
@@ -59,15 +59,15 @@ public class Order {
 		this.orderLine = orderLine;
 	}
 
-	public void addLine(int count, long itemId) {
-		this.orderLine.add(new OrderLine(count, itemId));
+	public void addLine(int count, long itemId, String note) {
+		this.orderLine.add(new OrderLine(count, itemId, note));
 	}
 
 	public int getNumberOfLines() {
 		return orderLine.size();
 	}
 
-	public double totalPrice(CatalogGrpcClientImp itemClient) {
+	public double totalPrice(CatalogClient itemClient) {
 		return orderLine.stream()
 				.map((ol) -> ol.getCount() * itemClient.price(ol.getItemId()))
 				.reduce(0.0, (d1, d2) -> d1 + d2);

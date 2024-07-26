@@ -1,6 +1,7 @@
 package com.ewolff.microservice.catalog;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -13,7 +14,9 @@ public class Item {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(nullable = false)
+	@Lob
+	@Size(max = 150000)
+	@Column(nullable = false, length = 150000)
 	private String name;
 
 	@Column(nullable = false)

@@ -1,9 +1,7 @@
 package com.ewolff.microservice.order.logic;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -17,6 +15,11 @@ public class OrderLine {
 
 	private long itemId;
 
+	@Lob
+	@Column(nullable = false, length = 150000)
+	@Size(max = 150000)
+	private String note;
+
 	@Id
 	@GeneratedValue
 	private long id;
@@ -29,12 +32,16 @@ public class OrderLine {
 		this.itemId = item;
 	}
 
+	public void setNote(String note) {this.note = note;}
+
 	public OrderLine() {
 	}
 
-	public OrderLine(int count, long item) {
+	public OrderLine(int count, long item, String note) {
 		this.count = count;
 		this.itemId = item;
+		this.note = note;
+
 	}
 
 	public int getCount() {
@@ -44,6 +51,8 @@ public class OrderLine {
 	public long getItemId() {
 		return itemId;
 	}
+
+	public String getNote() { return note;}
 
 	@Override
 	public String toString() {

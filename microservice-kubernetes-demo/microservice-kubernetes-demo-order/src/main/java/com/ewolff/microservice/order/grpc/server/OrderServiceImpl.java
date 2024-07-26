@@ -46,6 +46,7 @@ public class OrderServiceImpl extends OrderServiceGrpc.OrderServiceImplBase {
                     OrderProto.OrderLine orderLineProto = OrderProto.OrderLine.newBuilder()
                             .setCount(line.getCount())
                             .setItemId(line.getItemId())
+                            .setNote(line.getNote())
                             .build();
                     orderBuilder.addLines(orderLineProto);
                 }
@@ -83,6 +84,7 @@ public class OrderServiceImpl extends OrderServiceGrpc.OrderServiceImplBase {
                 OrderProto.OrderLine orderLineProto = OrderProto.OrderLine.newBuilder()
                         .setCount(line.getCount())
                         .setItemId(line.getItemId())
+                        .setNote(line.getNote())
                         .build();
                 orderBuilder.addLines(orderLineProto);
             }
@@ -107,7 +109,7 @@ public class OrderServiceImpl extends OrderServiceGrpc.OrderServiceImplBase {
             order.setCustomer(request.getCustomerId());
 
             for (OrderProto.OrderLine line : request.getLinesList()) {
-                order.addLine(line.getCount(), line.getItemId());
+                order.addLine(line.getCount(), line.getItemId(), line.getNote());
             }
 
             // Save the order
@@ -123,6 +125,7 @@ public class OrderServiceImpl extends OrderServiceGrpc.OrderServiceImplBase {
                                             .map(line -> OrderProto.OrderLine.newBuilder()
                                                     .setCount(line.getCount())
                                                     .setItemId(line.getItemId())
+                                                    .setNote(line.getNote())
                                                     .build())
                                             .collect(Collectors.toList())
                                     )
@@ -164,24 +167,5 @@ public class OrderServiceImpl extends OrderServiceGrpc.OrderServiceImplBase {
         orderRepository.findAll().forEach(orders::add);
         return orders;
     }
-
-//    private OrderProto.Order toProtoOrder(Order order) {
-//        OrderProto.Order.Builder orderBuilder = OrderProto.Order.newBuilder()
-//                .setId(order.getId())
-//                .setCustomerId(order.getCustomerId());
-//
-//        // Ensure order lines are initialized within transaction
-//        List<OrderLine> orderLines = new ArrayList<>(order.getOrderLine());
-//
-//        for (OrderLine line : orderLines) {
-//            OrderProto.OrderLine orderLineProto = OrderProto.OrderLine.newBuilder()
-//                    .setCount(line.getCount())
-//                    .setItemId(line.getItemId())
-//                    .build();
-//            orderBuilder.addLines(orderLineProto);
-//        }
-//
-//        return orderBuilder.build();
-//    }
 
 }

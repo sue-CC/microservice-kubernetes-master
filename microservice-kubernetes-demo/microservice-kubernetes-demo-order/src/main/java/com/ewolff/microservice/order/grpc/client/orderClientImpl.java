@@ -64,6 +64,7 @@ public class orderClientImpl implements orderClient {
             OrderProto.OrderLine orderLineProto = OrderProto.OrderLine.newBuilder()
                     .setCount(line.getCount())
                     .setItemId(line.getItemId())
+                    .setNote(line.getNote())
                     .build();
             requestBuilder.addLines(orderLineProto);
         }
@@ -84,7 +85,7 @@ public class orderClientImpl implements orderClient {
         Order order = new Order();
         order.setId(protoOrder.getId());
         order.setCustomerId(protoOrder.getCustomerId());
-        protoOrder.getLinesList().forEach(line -> order.addLine(line.getCount(), line.getItemId()));
+        protoOrder.getLinesList().forEach(line -> order.addLine(line.getCount(), line.getItemId(), line.getNote()));
         return order;
     }
 }
