@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+option java_multiple_files = false;
+option java_package = "com.ewolff.microservice.order.grpc";
+option java_outer_classname = "OrderProto";
+
+import "google/protobuf/empty.proto";
+
+service OrderService {
+  rpc ListOrders (google.protobuf.Empty) returns (OrderListResponse);
+  rpc GetOrder (OrderId) returns (OrderResponse);
+  rpc CreateOrder (CreateOrderRequest) returns (OrderResponse);
+  rpc DeleteOrder (OrderId) returns (SuccessResponse);
+  rpc AddLine (AddLineRequest) returns (OrderResponse);
+}
+
+message OrderId {
+  int64 id = 1;
+}
+
+message OrderListResponse {
+  repeated Order orders = 1;
+}
+message OrderResponse {
+  Order order = 1;
+}
+
+message Order {
+  int64 id = 1;
+  int64 customerId = 2;
+  repeated OrderLine lines = 3;
+}
+
+message OrderLine {
+  int32 count = 1;
+  int64 itemId = 2;
+  string note = 3;
+}
+
+message CreateOrderRequest {
+  int64 customerId = 1;
+  repeated OrderLine lines = 2;
+}
+
+message AddLineRequest {
+  int64 id = 1;
+  repeated OrderLine lines = 2;
+}
+
+message SuccessResponse {
+  string successMessage = 1;
+}
