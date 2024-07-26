@@ -1,19 +1,18 @@
 #!/bin/sh
+# Check if DOCKER_ACCOUNT is set, otherwise use default
 if [ -z "$DOCKER_ACCOUNT" ]; then
     DOCKER_ACCOUNT=clytze
 fi;
-docker build --tag=microservice-kubernetes-demo-apache apache
-docker tag microservice-kubernetes-demo-apache $DOCKER_ACCOUNT/microservice-kubernetes-demo-apache:latest
-docker push $DOCKER_ACCOUNT/microservice-kubernetes-demo-apache
 
-docker build --tag=microservice-kubernetes-demo-catalog-grpc microservice-kubernetes-demo-catalog
-docker tag microservice-kubernetes-demo-catalog-grpc $DOCKER_ACCOUNT/microservice-kubernetes-demo-catalog-grpc:latest
-docker push $DOCKER_ACCOUNT/microservice-kubernetes-demo-catalog-grpc
+# Create a new buildx builder instance and use it
+docker buildx create --name mymultiarchbuilder --use
+docker buildx inspect --bootstrap
 
-docker build --tag=microservice-kubernetes-demo-customer-grpc microservice-kubernetes-demo-customer
-docker tag microservice-kubernetes-demo-customer-grpc $DOCKER_ACCOUNT/microservice-kubernetes-demo-customer-grpc:latest
-docker push $DOCKER_ACCOUNT/microservice-kubernetes-demo-customer-grpc
+# Build and push images for multiple architectures
+docker buildx build --platform linux/amd64,linux/arm64 --tag $DOCKER_ACCOUNT/microservice-kubernetes-demo-apache:latest --push ./apache
+docker buildx build --platform linux/amd64,linux/arm64 --tag $DOCKER_ACCOUNT/microservice-kubernetes-demo-catalog-grpc:latest --push ./microservice-kubernetes-demo-catalog
+docker buildx build --platform linux/amd64,linux/arm64 --tag $DOCKER_ACCOUNT/microservice-kubernetes-demo-customer-grpc:latest --push ./microservice-kubernetes-demo-customer
+docker buildx build --platform linux/amd64,linux/arm64 --tag $DOCKER_ACCOUNT/microservice-kubernetes-demo-order-grpc:latest --push ./microservice-kubernetes-demo-order
 
-docker build --tag=microservice-kubernetes-demo-order-grpc microservice-kubernetes-demo-order
-docker tag microservice-kubernetes-demo-order-grpc $DOCKER_ACCOUNT/microservice-kubernetes-demo-order-grpc:latest
-docker push $DOCKER_ACCOUNT/microservice-kubernetes-demo-order-grpc
+# Remove the buildx builder instance when done
+docker buildx rm mymultiarchbuilder
