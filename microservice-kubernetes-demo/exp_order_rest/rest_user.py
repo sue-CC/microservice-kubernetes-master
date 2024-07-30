@@ -24,10 +24,10 @@ class RestInterceptor:
             if request_data:
                 request_size = len(request_data.encode('utf-8')) if isinstance(request_data, str) else len(str(request_data).encode('utf-8'))
 
-            # Include headers size in the request size
-            headers = kwargs.get("headers", {})
-            for header, value in headers.items():
-                request_size += len(header.encode('utf-8')) + len(value.encode('utf-8')) + 4  # 4 is for ': ' and '\r\n'
+            # # Include headers size in the request size
+            # headers = kwargs.get("headers", {})
+            # for header, value in headers.items():
+            #     request_size += len(header.encode('utf-8')) + len(value.encode('utf-8')) + 4  # 4 is for ': ' and '\r\n'
 
             response = method(url, **kwargs)
             response_length = len(response.content)
