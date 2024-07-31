@@ -126,9 +126,9 @@ plt.show()
 
 # Adjusting the colors of the box plots for energy consumption to use original colors and setting median lines to black
 fig, ax = plt.subplots(figsize=(12, 8))
-data_energy_combined = [data[(data['Frequency'] == freq) & (data['Size'] == size)]['Power']
+data_energy_combined = [data[(data['Frequency'] == freq) & (data['Size'] == size)]['Power'] * 150
                         for freq in range(3) for size in range(3)]
-data_energy_rest_combined = [data_rest[(data_rest['Frequency'] == freq) & (data_rest['Size'] == size)]['Power']
+data_energy_rest_combined = [data_rest[(data_rest['Frequency'] == freq) & (data_rest['Size'] == size)]['Power'] * 150
                              for freq in range(3) for size in range(3)]
 bp = ax.boxplot(data_energy_combined + data_energy_rest_combined, patch_artist=True)
 colors = [grpc_color_original] * 9 + [rest_color_original] * 9
@@ -137,8 +137,8 @@ for patch, color in zip(bp['boxes'], colors):
 for median in bp['medians']:
     median.set_color('black')
 
-ax.axhline(y=15.67, color='blue', linestyle='--', linewidth=1, label='gRPC Idle Energy')
-ax.axhline(y=15.56, color='red', linestyle='--', linewidth=1, label='REST Idle Energy')
+ax.axhline(y=15.67 * 150, color='blue', linestyle='--', linewidth=1, label='gRPC Idle Energy')
+ax.axhline(y=15.56 * 150, color='red', linestyle='--', linewidth=1, label='REST Idle Energy')
 ax.set_xlabel('Frequency_Size Combination')
 ax.set_ylabel('Energy Consumption (Joules)')
 ax.set_xticks(range(1, 19))
@@ -153,9 +153,9 @@ labels = ['gRPC', 'REST', 'gRPC Idle Energy', 'REST Idle Energy']
 ax.legend(handles, labels)
 
 # Annotate idle lines
-ax.annotate('15.67', xy=(0.5, 15.67), xytext=(-0.8, 15.67), textcoords='data',
+ax.annotate('2350.50', xy=(0.5, 15.67 * 150), xytext=(-0.8, 15.67 * 150), textcoords='data',
             arrowprops=dict(facecolor='#1f77b4', shrink=0.01))
-ax.annotate('15.56', xy=(0.5, 15.56), xytext=(-0.8, 15.56), textcoords='data',
+ax.annotate('2334.00', xy=(0.5, 15.56 * 150), xytext=(-0.8, 15.56 * 150), textcoords='data',
             arrowprops=dict(facecolor='#ff7f0e', shrink=0.01))
 
 plt.xticks(rotation=45)
